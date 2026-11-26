@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#fdfbf7" />
+  <meta name="description" content="Fresh, honest dairy from Ak's Dairy. Goodness from our family to yours." />
+  <title>Ak's Dairy — Goodness from our family to yours</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="announcement">Fresh from our dairy to your doorstep <span>✦</span> Order by 8 pm for tomorrow's delivery</div>
+  <header class="site-header">
+    <div class="brand">
+      <button class="cow-mascot brand-mark" type="button" aria-label="Ask the cow for a fresh milk bottle" title="Click the cow for fresh milk">
+        <svg viewBox="0 0 72 54" aria-hidden="true">
+          <g class="cow-body"><ellipse cx="32" cy="31" rx="21" ry="14"/><path class="cow-spot" d="M23 19c-6 2-8 7-6 12 5 2 10 0 12-5 1-3-2-6-6-7Zm17 17c-2 3-1 7 2 9 5-1 8-4 7-8-2-3-6-4-9-1Z"/></g>
+          <g class="cow-legs"><path class="rest-legs" d="M19 40v4l-4 3m14-2v3m16-7v3l4 3m4-9v5"/><path class="stand-legs" d="M19 40v8m10-5v5m16-7v7m8-11v11"/></g>
+          <path class="cow-neck" d="M45 24c5-3 8-7 9-11l7 2-2 15-8 7"/>
+          <path class="cow-head" d="M51 13c2-6 10-8 15-4l4 8-4 8-12-2-5-5Z"/>
+          <path class="cow-ear" d="m53 13-7-4-2 3 8 5m15-4 4-5 2 2-4 8"/>
+          <path class="cow-horns" d="m57 8 1-5 3 5m6 0 3-4 1 6"/>
+          <ellipse class="cow-muzzle" cx="66" cy="20" rx="5" ry="3.5"/><circle class="cow-eye" cx="62" cy="13" r="1.2"/>
+          <path class="cow-tail" d="M12 29c-5-1-6-6-3-9"/>
+        </svg>
+        <span class="milk-pop" aria-hidden="true"><svg viewBox="0 0 32 42"><path d="M11 2h10v6l4 5v24H7V13l4-5z"/><path d="M11 8h10M8 15h16"/><path d="M13 24h6v6h-6z"/></svg></span>
+      </button>
+      <a class="brand-name" href="#top" aria-label="Ak's Dairy home">Ak's <span>Dairy</span><small>PURE • LOCAL • LOVING</small></a>
+    </div>
+    <button class="menu-toggle" aria-label="Open navigation" aria-expanded="false">☰</button>
+    <nav class="main-nav" aria-label="Main navigation">
+      <a href="#shop">Our Dairy</a><a href="#story">Our Story</a><a href="#promise">Our Promise</a>
+    </nav>
+    <button class="cart-button" aria-label="Open shopping basket"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h2l2.2 11h11.5l2-8H6M9 19.5a1 1 0 1 0 0 .1m8 0a1 1 0 1 0 0 .1"/></svg><span>Basket</span><b id="cart-count">0</b></button>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow"><span></span> A little goodness, every day</p>
+        <h1>Raised with care.<br /><em>Made with love.</em></h1>
+        <p class="hero-intro">The simple pleasure of fresh, honest dairy. Made the old-fashioned way, with a whole lot of heart.</p>
+        <div class="hero-actions"><a href="#shop" class="btn-primary">Shop our dairy <span>→</span></a><a href="#story" class="text-link">A little about us <span>↗</span></a></div>
+        <div class="hero-note"><span class="sun-icon">✳</span><span><strong>Fresh every morning</strong><br />From our family dairy to your table</span></div>
+      </div>
+      <div class="hero-art" role="img" aria-label="A peaceful green pasture and a milk bottle">
+        <div class="sun-disc"></div><div class="hill hill-back"></div><div class="hill hill-front"></div>
+        <div class="field-flower flower-one">✳</div><div class="field-flower flower-two">✳</div><div class="field-flower flower-three">✳</div>
+        <div class="hero-stamp"><span>GOODNESS</span><b>from<br />the<br />farm</b><span>EST. WITH LOVE</span></div>
+        <div class="milk-bottle"><div class="bottle-cap"></div><div class="bottle-neck"></div><div class="bottle-body"><span class="bottle-label">AK'S<br /><small>FRESH MILK</small><i>✦</i></span></div></div>
+        <span class="art-caption">A better kind of everyday</span>
+      </div>
+      <div class="hero-bottom"><span>01 — GOOD FOOD, GOOD ROOTS</span><span>SCROLL TO EXPLORE ↓</span></div>
+    </section>
+
+    <section class="benefits" id="promise">
+      <div class="benefit"><span class="benefit-icon">❧</span><div><strong>From happy, healthy cows</strong><small>Care comes first, always</small></div></div>
+      <div class="benefit"><span class="benefit-icon">♧</span><div><strong>Fresh, every single day</strong><small>Never more than a day old</small></div></div>
+      <div class="benefit"><span class="benefit-icon">♡</span><div><strong>Just the good stuff</strong><small>Pure ingredients, no fuss</small></div></div>
+    </section>
+
+    <section class="shop-section" id="shop">
+      <div class="section-heading"><div><p class="eyebrow"><span></span> Straight from our dairy</p><h2>The daily <em>goodness</em></h2></div><a href="#products" class="text-link">View all our dairy <span>→</span></a></div>
+      <div class="product-grid" id="products">
+        <article class="product-card"><div class="product-image milk-image"><span class="product-tag">A family favourite</span><div class="product-illustration milk-carton"><div class="carton-top"></div><span>AK'S<br /><small>WHOLE MILK</small></span><i>✦</i></div><span class="image-caption">FRESH EACH MORNING</span></div><div class="product-info"><div><h3>Farm Fresh Milk</h3><p>Rich, creamy &amp; full of goodness</p></div><span class="price">₹68 <small>/ 1 L</small></span></div><button class="add-button" data-product="Farm Fresh Milk" data-price="68">Add to basket <span>+</span></button></article>
+        <article class="product-card"><div class="product-image curd-image"><span class="product-tag">Slow set, just right</span><div class="curd-pot"><div class="pot-lid"></div><div class="pot-body"><b>AK'S</b><small>HOMESTYLE<br />CURD</small></div></div><span class="image-caption">CULTURED WITH CARE</span></div><div class="product-info"><div><h3>Homestyle Curd</h3><p>Thick, cool &amp; wonderfully gentle</p></div><span class="price">₹55 <small>/ 500 g</small></span></div><button class="add-button" data-product="Homestyle Curd" data-price="55">Add to basket <span>+</span></button></article>
+        <article class="product-card"><div class="product-image ghee-image"><span class="product-tag">Made in small batches</span><div class="ghee-jar"><div class="jar-lid"></div><div class="jar-body"><span>AK'S<br /><small>GOLDEN<br />GHEE</small>✦</span></div></div><span class="image-caption">GOLDEN, SLOW-COOKED</span></div><div class="product-info"><div><h3>Golden Desi Ghee</h3><p>Slow-cooked &amp; deeply aromatic</p></div><span class="price">₹420 <small>/ 500 ml</small></span></div><button class="add-button" data-product="Golden Desi Ghee" data-price="420">Add to basket <span>+</span></button></article>
+      </div>
+    </section>
+
+    <section class="story-section" id="story"><div class="story-art"><div class="story-sun"></div><div class="story-field"></div><div class="story-barn">⌂</div><span>OUR LITTLE CORNER OF THE COUNTRYSIDE</span></div><div class="story-copy"><p class="eyebrow"><span></span> A simpler way of doing things</p><h2>Good things take<br /><em>a little more care.</em></h2><p>We believe the best food begins with kindness. That's why our milk is gathered fresh, our curd is left to set slowly, and every jar of ghee is made with the patience our grandparents taught us.</p><p>From our family to yours, we're here to make the everyday feel a little more special.</p><a href="#promise" class="text-link">The Ak's Dairy promise <span>→</span></a></div></section>
+
+    <section class="closing-note"><span class="ornament">✳</span><p>“The simple things in life<br />are often the <em>best things.</em>”</p><span class="closing-sign">Made with care at Ak's Dairy</span></section>
+  </main>
+
+  <footer class="site-footer"><div class="brand footer-brand"><button class="cow-mascot brand-mark" type="button" aria-label="Ask the cow for a fresh milk bottle" title="Click the cow for fresh milk"><svg viewBox="0 0 72 54" aria-hidden="true"><g class="cow-body"><ellipse cx="32" cy="31" rx="21" ry="14"/><path class="cow-spot" d="M23 19c-6 2-8 7-6 12 5 2 10 0 12-5 1-3-2-6-6-7Zm17 17c-2 3-1 7 2 9 5-1 8-4 7-8-2-3-6-4-9-1Z"/></g><g class="cow-legs"><path class="rest-legs" d="M19 40v4l-4 3m14-2v3m16-7v3l4 3m4-9v5"/><path class="stand-legs" d="M19 40v8m10-5v5m16-7v7m8-11v11"/></g><path class="cow-neck" d="M45 24c5-3 8-7 9-11l7 2-2 15-8 7"/><path class="cow-head" d="M51 13c2-6 10-8 15-4l4 8-4 8-12-2-5-5Z"/><path class="cow-ear" d="m53 13-7-4-2 3 8 5m15-4 4-5 2 2-4 8"/><path class="cow-horns" d="m57 8 1-5 3 5m6 0 3-4 1 6"/><ellipse class="cow-muzzle" cx="66" cy="20" rx="5" ry="3.5"/><circle class="cow-eye" cx="62" cy="13" r="1.2"/><path class="cow-tail" d="M12 29c-5-1-6-6-3-9"/></svg><span class="milk-pop" aria-hidden="true"><svg viewBox="0 0 32 42"><path d="M11 2h10v6l4 5v24H7V13l4-5z"/><path d="M11 8h10M8 15h16"/><path d="M13 24h6v6h-6z"/></svg></span></button><a class="brand-name" href="#top">Ak's <span>Dairy</span><small>PURE • LOCAL • LOVING</small></a></div><p>Goodness from our family to yours.</p><div class="footer-bottom"><span>© 2026 Ak's Dairy</span><span>Made with care, every day <b>✦</b></span></div></footer>
+  <div class="toast" role="status" aria-live="polite"></div>
+  <script src="script.js"></script>
+</body>
+</html>
