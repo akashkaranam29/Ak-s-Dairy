@@ -30,53 +30,143 @@
       </button>
       <a class="brand-name" href="#top" aria-label="Ak's Dairy home">Ak's <span>Dairy</span><small>PURE • LOCAL • LOVING</small></a>
     </div>
-    <button class="menu-toggle" aria-label="Open navigation" aria-expanded="false">☰</button>
-    <nav class="main-nav" aria-label="Main navigation">
-      <a href="#shop">Our Dairy</a><a href="#story">Our Story</a><a href="#promise">Our Promise</a>
-    </nav>
-    <button class="cart-button" aria-label="Open shopping basket"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h2l2.2 11h11.5l2-8H6M9 19.5a1 1 0 1 0 0 .1m8 0a1 1 0 1 0 0 .1"/></svg><span>Basket</span><b id="cart-count">0</b></button>
+    <form class="header-search" role="search" id="header-search">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 5 5"/></svg>
+      <input id="product-search" type="search" placeholder="Search milk, curd or ghee" aria-label="Search dairy products" />
+      <button type="button" id="clear-search" aria-label="Clear search" hidden>×</button>
+    </form>
+    <div class="header-actions">
+      <button class="nav-button active" id="home-button" type="button" aria-current="page" title="Home"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-6v-7h-4v7H4a1 1 0 0 1-1-1z"/></svg><span>Home</span></button>
+      <button class="profile-button" id="profile-button" type="button" aria-label="Open your profile" title="Profile"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.5"/><path d="M4.5 21a7.5 7.5 0 0 1 15 0"/></svg><span class="profile-name-label" id="profile-name-label">Profile</span></button>
+      <button class="nav-button" id="orders-button" type="button" title="Orders"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4h14M7 10h14M7 16h14M3 4h.01M3 10h.01M3 16h.01"/></svg><span>Orders</span><b class="orders-count" id="orders-count">0</b></button>
+      <button class="cart-button" aria-label="Go to checkout"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h2l2.2 11h11.5l2-8H6M9 19.5a1 1 0 1 0 0 .1m8 0a1 1 0 1 0 0 .1"/></svg><span>Basket</span><b id="cart-count">0</b></button>
+    </div>
   </header>
 
-  <main id="top">
-    <section class="hero">
+  <main id="home-page">
+    <section class="hero" id="top">
       <div class="hero-copy">
-        <p class="eyebrow"><span></span> A little goodness, every day</p>
-        <h1>Raised with care.<br /><em>Made with love.</em></h1>
-        <p class="hero-intro">The simple pleasure of fresh, honest dairy. Made the old-fashioned way, with a whole lot of heart.</p>
+        <h1>Ak’s Dairy</h1>
+        <p class="hero-intro">Where we meet <span>100% originals.</span></p>
         <div class="hero-actions"><a href="#shop" class="btn-primary">Shop our dairy <span>→</span></a><a href="#story" class="text-link">A little about us <span>↗</span></a></div>
-        <div class="hero-note"><span class="sun-icon">✳</span><span><strong>Fresh every morning</strong><br />From our family dairy to your table</span></div>
       </div>
-      <div class="hero-art" role="img" aria-label="A peaceful green pasture and a milk bottle">
-        <div class="sun-disc"></div><div class="hill hill-back"></div><div class="hill hill-front"></div>
-        <div class="field-flower flower-one">✳</div><div class="field-flower flower-two">✳</div><div class="field-flower flower-three">✳</div>
-        <div class="hero-stamp"><span>GOODNESS</span><b>from<br />the<br />farm</b><span>EST. WITH LOVE</span></div>
-        <div class="milk-bottle"><div class="bottle-cap"></div><div class="bottle-neck"></div><div class="bottle-body"><span class="bottle-label">AK'S<br /><small>FRESH MILK</small><i>✦</i></span></div></div>
-        <span class="art-caption">A better kind of everyday</span>
+      <div class="hero-cow-stage">
+        <button class="hero-cow" type="button" aria-label="Click the cow for a Namaste greeting and fresh milk">
+          <span class="hero-cow-greeting" aria-live="polite"></span>
+          <svg class="hero-cow-art" viewBox="0 0 300 240" role="img" aria-label="A friendly three-dimensional dairy cow">
+            <defs>
+              <linearGradient id="cow-coat" x1="0" y1="0" x2=".9" y2="1"><stop offset="0" stop-color="#fffef8"/><stop offset=".56" stop-color="#f1eadb"/><stop offset="1" stop-color="#d9cdb7"/></linearGradient>
+              <linearGradient id="cow-face" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fffdf5"/><stop offset="1" stop-color="#e4d5c3"/></linearGradient>
+              <linearGradient id="cow-muzzle" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#f5c8ad"/><stop offset="1" stop-color="#d99175"/></linearGradient>
+              <linearGradient id="cow-jar" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#fffdf7"/><stop offset=".55" stop-color="#e8dfcf"/><stop offset="1" stop-color="#fffdf7"/></linearGradient>
+              <filter id="cow-shadow" x="-30%" y="-30%" width="170%" height="190%"><feDropShadow dx="0" dy="8" stdDeviation="6" flood-color="#214227" flood-opacity=".24"/></filter>
+            </defs>
+            <ellipse cx="143" cy="218" rx="93" ry="12" fill="#214227" opacity=".18"/>
+            <g class="cow-figure" filter="url(#cow-shadow)">
+              <g class="hero-cow-legs"><path class="folded-legs" d="M88 159v20q-18 8-5 16h30v-30m49-4v18q20 6 14 17h-29v-33"/><path class="standing-legs" d="M86 153v49q0 7 7 7h11q7 0 7-7v-47m33 0v47q0 7 7 7h11q7 0 7-7v-50"/></g>
+              <ellipse class="hero-cow-body" cx="132" cy="126" rx="79" ry="53" fill="url(#cow-coat)"/>
+              <path class="hero-cow-spot" d="M79 89q-24 8-22 31 4 20 28 14 21-7 20-28-7-22-26-17Zm78 54q-15 13-5 28 15 10 30-4 6-14-4-24-10-8-21 0Z"/>
+              <path d="M53 116q-15-4-21-17" fill="none" stroke="#2E5A36" stroke-width="5" stroke-linecap="round" class="cow-tail-3d"/><ellipse cx="30" cy="96" rx="5" ry="8" fill="#2E5A36"/>
+              <path class="hero-cow-neck" d="M171 103q20-21 21-46l43 4q-1 36-10 66l-26 31Z" fill="url(#cow-coat)"/>
+              <g class="hero-cow-head">
+                <path d="M189 70q-21-19-35-11l17 22Zm42-1q24-21 37-9l-17 23Z" fill="#e7c2ae" stroke="#c9977f" stroke-width="2"/>
+                <path d="M194 47q-1-19 13-23l4 24m18-1q9-20 22-16l-7 21" fill="#e5a93c" stroke="#c28a2d" stroke-width="2" stroke-linejoin="round"/>
+                <path d="M178 61q7-31 37-32 34 1 42 33l-7 38q-4 24-35 26-31-2-37-25Z" fill="url(#cow-face)"/>
+                <path d="M190 83q7-6 14 0m25 0q7-6 14 0" fill="none" stroke="#51483d" stroke-width="3" stroke-linecap="round" class="cow-eyes-3d"/>
+                <ellipse cx="217" cy="99" rx="27" ry="20" fill="url(#cow-muzzle)"/><ellipse cx="207" cy="98" rx="3" ry="2.5" fill="#874e43"/><ellipse cx="228" cy="98" rx="3" ry="2.5" fill="#874e43"/>
+                <path d="M208 108q9 7 18 0" fill="none" stroke="#9b5b4e" stroke-width="2" stroke-linecap="round"/>
+              </g>
+              <path d="M88 173q17 14 38 0" fill="none" stroke="#f2c5ad" stroke-width="12" stroke-linecap="round"/>
+            </g>
+            <g class="hero-cow-bottle" aria-hidden="true"><rect x="240" y="126" width="18" height="9" rx="2" fill="#C85A32"/><path d="M243 135h12v10l6 8v45q0 6-6 6h-20q-6 0-6-6v-45l6-8v-10Z" fill="url(#cow-jar)" stroke="#c9bca9" stroke-width="2"/><rect x="232" y="158" width="22" height="24" rx="3" fill="#2E5A36"/><text x="243" y="169" text-anchor="middle" fill="white" font-family="Georgia,serif" font-size="6" font-weight="bold">AK'S</text><text x="243" y="177" text-anchor="middle" fill="white" font-family="Arial,sans-serif" font-size="3.8">FRESH MILK</text></g>
+          </svg>
+          <span class="hero-cow-hint">CLICK THE COW</span>
+        </button>
       </div>
       <div class="hero-bottom"><span>01 — GOOD FOOD, GOOD ROOTS</span><span>SCROLL TO EXPLORE ↓</span></div>
-    </section>
-
-    <section class="benefits" id="promise">
-      <div class="benefit"><span class="benefit-icon">❧</span><div><strong>From happy, healthy cows</strong><small>Care comes first, always</small></div></div>
-      <div class="benefit"><span class="benefit-icon">♧</span><div><strong>Fresh, every single day</strong><small>Never more than a day old</small></div></div>
-      <div class="benefit"><span class="benefit-icon">♡</span><div><strong>Just the good stuff</strong><small>Pure ingredients, no fuss</small></div></div>
     </section>
 
     <section class="shop-section" id="shop">
       <div class="section-heading"><div><p class="eyebrow"><span></span> Straight from our dairy</p><h2>The daily <em>goodness</em></h2></div><a href="#products" class="text-link">View all our dairy <span>→</span></a></div>
       <div class="product-grid" id="products">
-        <article class="product-card"><div class="product-image milk-image"><span class="product-tag">A family favourite</span><div class="product-illustration milk-carton"><div class="carton-top"></div><span>AK'S<br /><small>WHOLE MILK</small></span><i>✦</i></div><span class="image-caption">FRESH EACH MORNING</span></div><div class="product-info"><div><h3>Farm Fresh Milk</h3><p>Rich, creamy &amp; full of goodness</p></div><span class="price">₹68 <small>/ 1 L</small></span></div><button class="add-button" data-product="Farm Fresh Milk" data-price="68">Add to basket <span>+</span></button></article>
-        <article class="product-card"><div class="product-image curd-image"><span class="product-tag">Slow set, just right</span><div class="curd-pot"><div class="pot-lid"></div><div class="pot-body"><b>AK'S</b><small>HOMESTYLE<br />CURD</small></div></div><span class="image-caption">CULTURED WITH CARE</span></div><div class="product-info"><div><h3>Homestyle Curd</h3><p>Thick, cool &amp; wonderfully gentle</p></div><span class="price">₹55 <small>/ 500 g</small></span></div><button class="add-button" data-product="Homestyle Curd" data-price="55">Add to basket <span>+</span></button></article>
-        <article class="product-card"><div class="product-image ghee-image"><span class="product-tag">Made in small batches</span><div class="ghee-jar"><div class="jar-lid"></div><div class="jar-body"><span>AK'S<br /><small>GOLDEN<br />GHEE</small>✦</span></div></div><span class="image-caption">GOLDEN, SLOW-COOKED</span></div><div class="product-info"><div><h3>Golden Desi Ghee</h3><p>Slow-cooked &amp; deeply aromatic</p></div><span class="price">₹420 <small>/ 500 ml</small></span></div><button class="add-button" data-product="Golden Desi Ghee" data-price="420">Add to basket <span>+</span></button></article>
+        <article class="product-card"><div class="product-image milk-image"><span class="product-tag">A family favourite</span><div class="product-illustration milk-carton"><div class="carton-top"></div><span>AK'S<br /><small>WHOLE MILK</small></span><i>✦</i></div><span class="image-caption">FRESH EACH MORNING</span></div><div class="product-info"><div><h3>Farm Fresh Milk</h3><p>Rich, creamy &amp; full of goodness</p></div><span class="price">₹68 <small>/ 1 L</small></span></div><button class="add-button" data-product="Farm Fresh Milk" data-price="68">Add to basket <span>+</span></button><button class="buy-now-button" data-product="Farm Fresh Milk" data-price="68">Buy now <span>→</span></button></article>
+        <article class="product-card"><div class="product-image curd-image"><span class="product-tag">Slow set, just right</span><div class="curd-pot"><div class="pot-lid"></div><div class="pot-body"><b>AK'S</b><small>HOMESTYLE<br />CURD</small></div></div><span class="image-caption">CULTURED WITH CARE</span></div><div class="product-info"><div><h3>Homestyle Curd</h3><p>Thick, cool &amp; wonderfully gentle</p></div><span class="price">₹55 <small>/ 500 g</small></span></div><button class="add-button" data-product="Homestyle Curd" data-price="55">Add to basket <span>+</span></button><button class="buy-now-button" data-product="Homestyle Curd" data-price="55">Buy now <span>→</span></button></article>
+        <article class="product-card"><div class="product-image ghee-image"><span class="product-tag">Made in small batches</span><div class="ghee-jar"><div class="jar-lid"></div><div class="jar-body"><span>AK'S<br /><small>GOLDEN<br />GHEE</small>✦</span></div></div><span class="image-caption">GOLDEN, SLOW-COOKED</span></div><div class="product-info"><div><h3>Golden Desi Ghee</h3><p>Slow-cooked &amp; deeply aromatic</p></div><span class="price">₹420 <small>/ 500 ml</small></span></div><button class="add-button" data-product="Golden Desi Ghee" data-price="420">Add to basket <span>+</span></button><button class="buy-now-button" data-product="Golden Desi Ghee" data-price="420">Buy now <span>→</span></button></article>
+        <p class="search-empty" id="search-empty" hidden>No dairy favourites match that search. Try “milk”, “curd” or “ghee”.</p>
       </div>
     </section>
-
-    <section class="story-section" id="story"><div class="story-art"><div class="story-sun"></div><div class="story-field"></div><div class="story-barn">⌂</div><span>OUR LITTLE CORNER OF THE COUNTRYSIDE</span></div><div class="story-copy"><p class="eyebrow"><span></span> A simpler way of doing things</p><h2>Good things take<br /><em>a little more care.</em></h2><p>We believe the best food begins with kindness. That's why our milk is gathered fresh, our curd is left to set slowly, and every jar of ghee is made with the patience our grandparents taught us.</p><p>From our family to yours, we're here to make the everyday feel a little more special.</p><a href="#promise" class="text-link">The Ak's Dairy promise <span>→</span></a></div></section>
-
-    <section class="closing-note"><span class="ornament">✳</span><p>“The simple things in life<br />are often the <em>best things.</em>”</p><span class="closing-sign">Made with care at Ak's Dairy</span></section>
   </main>
 
   <footer class="site-footer"><div class="brand footer-brand"><button class="cow-mascot brand-mark" type="button" aria-label="Ask the cow for a fresh milk bottle" title="Click the cow for fresh milk"><svg viewBox="0 0 72 54" aria-hidden="true"><g class="cow-body"><ellipse cx="32" cy="31" rx="21" ry="14"/><path class="cow-spot" d="M23 19c-6 2-8 7-6 12 5 2 10 0 12-5 1-3-2-6-6-7Zm17 17c-2 3-1 7 2 9 5-1 8-4 7-8-2-3-6-4-9-1Z"/></g><g class="cow-legs"><path class="rest-legs" d="M19 40v4l-4 3m14-2v3m16-7v3l4 3m4-9v5"/><path class="stand-legs" d="M19 40v8m10-5v5m16-7v7m8-11v11"/></g><path class="cow-neck" d="M45 24c5-3 8-7 9-11l7 2-2 15-8 7"/><path class="cow-head" d="M51 13c2-6 10-8 15-4l4 8-4 8-12-2-5-5Z"/><path class="cow-ear" d="m53 13-7-4-2 3 8 5m15-4 4-5 2 2-4 8"/><path class="cow-horns" d="m57 8 1-5 3 5m6 0 3-4 1 6"/><ellipse class="cow-muzzle" cx="66" cy="20" rx="5" ry="3.5"/><circle class="cow-eye" cx="62" cy="13" r="1.2"/><path class="cow-tail" d="M12 29c-5-1-6-6-3-9"/></svg><span class="milk-pop" aria-hidden="true"><svg viewBox="0 0 32 42"><path d="M11 2h10v6l4 5v24H7V13l4-5z"/><path d="M11 8h10M8 15h16"/><path d="M13 24h6v6h-6z"/></svg></span></button><a class="brand-name" href="#top">Ak's <span>Dairy</span><small>PURE • LOCAL • LOVING</small></a></div><p>Goodness from our family to yours.</p><div class="footer-bottom"><span>© 2026 Ak's Dairy</span><span>Made with care, every day <b>✦</b></span></div></footer>
+  <main class="site-page" id="checkout-page" hidden>
+    <div class="page-top"><button class="back-link" type="button" data-go-home>← Continue shopping</button></div>
+    <section id="checkout-content">
+      <div class="page-heading"><p class="eyebrow"><span></span> A few details and it's yours</p><h1>Checkout</h1><p>Fresh goodness is nearly on its way.</p></div>
+      <div class="checkout-layout">
+        <form class="checkout-form" id="checkout-form">
+          <section class="form-section"><h2>Delivery details</h2>
+            <label class="field-label" for="customer-name">Your name</label><input id="customer-name" name="name" autocomplete="name" required placeholder="Name for your delivery" />
+            <label class="field-label" for="customer-phone">Mobile number</label><input id="customer-phone" name="phone" type="tel" autocomplete="tel" inputmode="numeric" pattern="[0-9+() -]{8,16}" required placeholder="Your contact number" />
+            <label class="field-label" for="delivery-address">Delivery address</label><textarea id="delivery-address" name="address" autocomplete="street-address" rows="3" required placeholder="House, street, area and landmark"></textarea>
+          </section>
+          <section class="form-section"><h2>Payment method</h2><div class="payment-options">
+            <label class="payment-option"><input type="radio" name="payment" value="UPI" checked /><span class="payment-icon upi-icon">UPI</span><span class="payment-copy"><strong>Pay by UPI</strong><small>Google Pay, PhonePe, Paytm and more</small></span><span class="radio-dot"></span></label>
+            <label class="payment-option"><input type="radio" name="payment" value="Cash on delivery" /><span class="payment-icon cod-icon">₹</span><span class="payment-copy"><strong>Cash on delivery</strong><small>Pay when your order arrives</small></span><span class="radio-dot"></span></label>
+          </div><p class="payment-note" id="payment-note">UPI orders will be confirmed once payment is received.</p></section>
+          <button class="btn-primary place-order-button" type="submit">Place my order <span>→</span></button>
+        </form>
+        <aside class="order-summary"><p class="eyebrow"><span></span> From our dairy</p><h2>Your basket</h2><div id="checkout-items" class="checkout-items"></div><div class="summary-total"><span>Total</span><strong id="checkout-total">₹0</strong></div><p class="summary-footnote">We’ll confirm delivery details with you after your order.</p></aside>
+      </div>
+    </section>
+    <section class="order-success" id="order-success" hidden aria-live="polite">
+      <div class="success-confetti" aria-hidden="true"><i>✦</i><i>✿</i><i>✦</i><i>✧</i><i>✿</i><i>✦</i></div>
+      <div class="success-check"><span>✓</span></div><p class="eyebrow"><span></span> Fresh goodness is on its way <span></span></p><h1>Thank you!</h1>
+      <p class="success-copy">Your order is in. We’re so glad you chose Ak’s Dairy.</p>
+      <div class="success-order-id"><small>YOUR ORDER ID</small><strong id="success-order-id"></strong></div><p class="success-payment" id="success-payment"></p>
+      <div class="success-actions"><button class="btn-primary" type="button" data-go-home>Back to home <span>→</span></button><button class="text-link" type="button" data-go-orders>View my orders</button></div>
+    </section>
+  </main>
+  <main class="site-page orders-page" id="orders-page" hidden>
+    <div class="page-top"><button class="back-link" type="button" data-go-home>← Back to home</button></div>
+    <div class="page-heading"><p class="eyebrow"><span></span> Your Ak’s Dairy visits</p><h1>My orders</h1><p>Every order, made fresh with care.</p></div>
+    <div id="orders-list" class="orders-list"></div>
+    <div class="orders-account-actions" id="orders-account-actions" hidden><span>Signed in as <strong id="orders-account-name"></strong></span><button class="sign-out-button" id="orders-sign-out" type="button">Sign out</button></div>
+  </main>
+  <main class="site-page auth-page" id="auth-page" hidden>
+    <section class="auth-card">
+      <div class="auth-emblem" aria-hidden="true">✦</div>
+      <p class="auth-brand">AK’S DAIRY <span>•</span> PURE, LOCAL, LOVING</p>
+      <h1 id="auth-heading">Welcome to Ak’s Dairy</h1>
+      <p class="auth-subheading" id="auth-subheading">Sign in with your mobile number to continue.</p>
+      <p class="auth-message" id="auth-message" role="status" aria-live="polite"></p>
+      <form id="login-form" class="auth-form">
+        <label class="field-label" for="login-mobile">Mobile number</label><input id="login-mobile" name="mobile" type="tel" autocomplete="tel" inputmode="tel" required pattern="[0-9+() -]{8,16}" placeholder="Enter your mobile number" />
+        <label class="field-label" for="login-password">Password</label><input id="login-password" name="password" type="password" autocomplete="current-password" required minlength="8" placeholder="Enter your password" />
+        <button class="forgot-link" type="button" data-auth-view="forgot">Forgot password?</button>
+        <button class="btn-primary auth-submit" type="submit">Sign in <span>→</span></button>
+        <p class="auth-switch">New customer? <button type="button" data-auth-view="signup">Create an account</button></p>
+      </form>
+      <form id="signup-form" class="auth-form" hidden>
+        <label class="field-label" for="signup-name">Your name</label><input id="signup-name" name="name" autocomplete="name" required placeholder="Enter your name" />
+        <label class="field-label" for="signup-mobile">Mobile number</label><input id="signup-mobile" name="mobile" type="tel" autocomplete="tel" inputmode="tel" required pattern="[0-9+() -]{8,16}" placeholder="Enter your mobile number" />
+        <label class="field-label" for="signup-password">Create a password</label><input id="signup-password" name="password" type="password" autocomplete="new-password" required minlength="8" placeholder="At least 8 characters" />
+        <label class="field-label" for="signup-password-confirm">Confirm password</label><input id="signup-password-confirm" name="passwordConfirm" type="password" autocomplete="new-password" required minlength="8" placeholder="Enter your password again" />
+        <button class="btn-primary auth-submit" type="submit">Create account <span>→</span></button>
+        <p class="auth-switch">Already a customer? <button type="button" data-auth-view="login">Sign in</button></p>
+      </form>
+      <form id="forgot-form" class="auth-form" hidden>
+        <p class="forgot-copy">Enter your mobile number and we’ll help you recover your account.</p>
+        <label class="field-label" for="forgot-mobile">Mobile number on your account</label><input id="forgot-mobile" name="mobile" type="tel" autocomplete="tel" inputmode="tel" required pattern="[0-9+() -]{8,16}" placeholder="Enter your mobile number" />
+        <div id="forgot-reset-fields" hidden>
+          <label class="field-label" for="reset-otp">One-time password (OTP)</label><input id="reset-otp" name="otp" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6}" minlength="6" maxlength="6" placeholder="Enter 123456" />
+          <label class="field-label" for="reset-password">New password</label><input id="reset-password" name="newPassword" type="password" autocomplete="new-password" minlength="8" placeholder="At least 8 characters" />
+          <label class="field-label" for="reset-password-confirm">Confirm new password</label><input id="reset-password-confirm" name="confirmPassword" type="password" autocomplete="new-password" minlength="8" placeholder="Enter it again" />
+        </div>
+        <button class="btn-primary auth-submit" type="submit">Send reset code <span>→</span></button>
+        <p class="auth-switch"><button type="button" data-auth-view="login">← Back to sign in</button></p>
+      </form>
+    </section>
+  </main>
   <div class="toast" role="status" aria-live="polite"></div>
   <script src="script.js"></script>
 </body>
