@@ -30,10 +30,12 @@ const footer = document.querySelector('.site-footer');
 let toastTimer;
 let checkoutAfterLogin = false;
 let ordersAfterLogin = false;
+let storeIsOpen = true;
 
-const itemList = () => [...cart.entries()].map(([name, item]) => ({ name, price: Number(item.price), quantity: Number(item.quantity) }));
+const itemList = () => [...cart.entries()].map(([name, item]) => ({ id: item.id || '', name, price: Number(item.price), quantity: Number(item.quantity), stock: Number(item.stock ?? Number.MAX_SAFE_INTEGER) }));
 const cartTotal = () => itemList().reduce((sum, item) => sum + item.price * item.quantity, 0);
 const money = (amount) => `₹${Number(amount).toLocaleString('en-IN')}`;
+const escapeHtml = (value) => String(value).replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
 
 function showToast(message) {
   toast.textContent = message;
@@ -87,7 +89,10 @@ function openPage(page, scrollPosition = 'top') {
   footer.hidden = page !== 'home';
   updateNavigation(page === 'orders' ? 'orders' : page === 'home' ? 'home' : '');
   if (page === 'checkout') renderCheckout();
-  if (page === 'orders') renderOrders();
+  if (page === 'orders') {
+    renderOrders();
+    if (profile.name?.trim()) loadCustomerOrders().then(renderOrders).catch(() => {});
+  }
   window.scrollTo({ top: scrollPosition === 'bottom' ? document.documentElement.scrollHeight : 0, behavior: 'smooth' });
 }
 
@@ -119,20 +124,33 @@ async function api(path, data) {
       body: data ? JSON.stringify(data) : undefined,
     });
   } catch {
-    const error = new Error('The SQLite database server is not reachable. Start Ak’s Dairy with “Start Ak’s Dairy.bat”, then open http://localhost:8000.');
+    const runningLocally = ['localhost', '127.0.0.1'].includes(location.hostname);
+    const error = new Error(runningLocally
+      ? 'The local database server is not reachable. Start Ak’s Dairy with “Start Ak’s Dairy.bat”, then open http://localhost:8000.'
+      : 'The hosted database service could not be reached. Check the Vercel deployment and its POSTGRES_URL or DATABASE_URL setting.');
     error.databaseOffline = true;
+    error.runningLocally = runningLocally;
     throw error;
   }
   let result;
   try { result = await response.json(); }
-  catch { throw new Error('The database server returned an unreadable response. Restart it with “Start Ak’s Dairy.bat” and try again.'); }
-  if (!response.ok) throw new Error(result.error || 'We couldn’t complete that request.');
+  catch {
+    const runningLocally = ['localhost', '127.0.0.1'].includes(location.hostname);
+    throw new Error(runningLocally
+      ? 'The local database server returned an unreadable response. Restart it with “Start Ak’s Dairy.bat” and try again.'
+      : 'Vercel did not return a database response. Confirm that POSTGRES_URL or DATABASE_URL is configured, then redeploy.');
+  }
+  if (!response.ok) {
+    const error = new Error(result.error || 'We couldn’t complete that request.');
+    error.status = response.status;
+    throw error;
+  }
   return result;
 }
 
 function showAuthError(message, error) {
   message.textContent = error.message;
-  if (!error.databaseOffline) return;
+  if (!error.databaseOffline || !error.runningLocally) return;
   const link = document.createElement('a');
   link.href = 'http://localhost:8000';
   link.textContent = 'Open the database connected site';
@@ -190,7 +208,8 @@ function renderCheckout() {
   rows.forEach((item) => {
     const row = document.createElement('div');
     row.className = 'checkout-item';
-    row.innerHTML = `<div class="checkout-item-name"><strong>${item.name}</strong><small>${money(item.price)} each</small></div><div class="quantity-controls"><button type="button" data-quantity="-1" data-name="${item.name}" aria-label="Remove one ${item.name}">−</button><span>${item.quantity}</span><button type="button" data-quantity="1" data-name="${item.name}" aria-label="Add one ${item.name}">+</button></div><strong class="checkout-line-total">${money(item.price * item.quantity)}</strong>`;
+    const safeName = escapeHtml(item.name);
+    row.innerHTML = `<div class="checkout-item-name"><strong>${safeName}</strong><small>${money(item.price)} each</small></div><div class="quantity-controls"><button type="button" data-quantity="-1" data-name="${safeName}" aria-label="Remove one ${safeName}">−</button><span>${item.quantity}</span><button type="button" data-quantity="1" data-name="${safeName}" aria-label="Add one ${safeName}" ${item.quantity >= item.stock ? 'disabled' : ''}>+</button></div><strong class="checkout-line-total">${money(item.price * item.quantity)}</strong>`;
     target.append(row);
   });
   document.querySelector('#checkout-total').textContent = money(cartTotal());
@@ -213,8 +232,17 @@ function renderOrders() {
     const card = document.createElement('article');
     card.className = 'order-card';
     const date = new Date(order.createdAt).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' });
-    const items = order.items.map((item) => `<li>${item.quantity} × ${item.name}<span>${money(item.price * item.quantity)}</span></li>`).join('');
-    card.innerHTML = `<div class="order-card-top"><div><small>ORDER ID</small><strong>${order.id}</strong></div><span class="order-status ${order.paymentMethod === 'UPI' ? 'pending' : 'confirmed'}">${order.paymentMethod === 'UPI' ? 'Payment pending' : 'Order placed'}</span></div><div class="order-card-meta"><span>${date}</span><span>${order.paymentMethod}</span></div><ol class="order-tracker" aria-label="Order progress"><li class="is-complete"><i>✓</i><span>Order placed</span></li><li><i>2</i><span>Payment approved</span></li><li><i>3</i><span>Packed</span></li><li><i>4</i><span>Delivered</span></li></ol><ul>${items}</ul><div class="order-card-total"><span>Total</span><strong>${money(order.total)}</strong></div>`;
+    const items = order.items.map((item) => `<li>${item.quantity} × ${escapeHtml(item.name)}<span>${money(item.price * item.quantity)}</span></li>`).join('');
+    const state = order.status || 'placed';
+    const stage = { placed: 0, approved: 1, packed: 2, delivered: 3, disapproved: 1 }[state] ?? 0;
+    const trackerLabels = state === 'disapproved' ? ['Order placed', 'Order declined', 'Packed', 'Delivered'] : ['Order placed', 'Approved', 'Packed', 'Delivered'];
+    const tracker = trackerLabels.map((label, index) => {
+      const complete = state !== 'disapproved' && index <= stage;
+      const declined = state === 'disapproved' && index === 1;
+      return `<li class="${complete ? 'is-complete' : ''} ${declined ? 'is-rejected' : ''}"><i>${complete ? '✓' : declined ? '×' : index + 1}</i><span>${label}</span></li>`;
+    }).join('');
+    const currentStatus = { placed: 'Order received', approved: 'Approved by dairy', packed: 'Packed', delivered: 'Delivered', disapproved: 'Order declined' }[state] || 'Order received';
+    card.innerHTML = `<div class="order-card-top"><div><small>ORDER ID</small><strong>${escapeHtml(order.id)}</strong></div><span class="order-status ${state === 'disapproved' ? 'rejected' : 'confirmed'}">${currentStatus}</span></div><div class="order-card-meta"><span>${escapeHtml(date)}</span><span>${escapeHtml(order.paymentMethod)}</span></div><ol class="order-tracker" aria-label="Order progress">${tracker}</ol><ul>${items}</ul><div class="order-card-total"><span>Total</span><strong>${money(order.total)}</strong></div>`;
     target.append(card);
   });
 }
@@ -250,33 +278,9 @@ function makeOrderId() {
   return id;
 }
 
-document.querySelectorAll('.add-button').forEach((button) => {
-  button.addEventListener('click', () => {
-    const name = button.dataset.product;
-    const price = Number(button.dataset.price);
-    const item = cart.get(name) || { price, quantity: 0 };
-    item.quantity += 1;
-    cart.set(name, item);
-    persistCart();
-    showToast(`${name} added to your basket`);
-  });
-});
-
-document.querySelectorAll('.buy-now-button').forEach((button) => {
-  button.addEventListener('click', () => {
-    const name = button.dataset.product;
-    const price = Number(button.dataset.price);
-    const item = cart.get(name) || { price, quantity: 0 };
-    item.quantity += 1;
-    cart.set(name, item);
-    persistCart();
-    openCheckout();
-  });
-});
-
 const searchInput = document.querySelector('#product-search');
 const searchClear = document.querySelector('#clear-search');
-const productCards = [...document.querySelectorAll('.product-card')];
+let productCards = [...document.querySelectorAll('.product-card')];
 function filterProducts() {
   const query = searchInput.value.trim().toLocaleLowerCase();
   let visible = 0;
@@ -297,6 +301,130 @@ searchClear.addEventListener('click', () => {
 document.querySelector('#header-search').addEventListener('submit', (event) => {
   event.preventDefault();
   document.querySelector('#shop').scrollIntoView({ behavior: 'smooth' });
+});
+
+function productVisual(category) {
+  if (category === 'milk') return '<div class="product-illustration milk-carton"><div class="carton-top"></div><span>AK’S<br><small>WHOLE MILK</small></span><i>✦</i></div>';
+  if (category === 'curd') return '<div class="curd-pot"><div class="pot-lid"></div><div class="pot-body"><b>AK’S</b><small>HOMESTYLE<br />CURD</small></div></div>';
+  if (category === 'ghee') return '<div class="ghee-jar"><div class="jar-lid"></div><div class="jar-body"><span>AK’S<br /><small>GOLDEN<br />GHEE</small>✦</span></div></div>';
+  return '<div class="product-generic-illustration">✦</div>';
+}
+
+function drawConsumerProduct(product) {
+  const card = document.createElement('article');
+  card.className = 'product-card';
+  const image = document.createElement('div');
+  image.className = `product-image ${product.image_data ? 'uploaded-image' : `${product.category}-image`}`;
+  const tag = document.createElement('span');
+  tag.className = 'product-tag';
+  tag.textContent = product.quantity > 0 ? 'Fresh from our dairy' : 'Currently out of stock';
+  image.append(tag);
+  if (product.image_data) {
+    const photo = document.createElement('img');
+    photo.className = 'uploaded-product-photo';
+    photo.src = product.image_data;
+    photo.alt = product.name;
+    image.append(photo);
+  } else image.insertAdjacentHTML('beforeend', productVisual(product.category));
+  const caption = document.createElement('span');
+  caption.className = 'image-caption';
+  caption.textContent = product.category === 'ghee' ? 'MADE WITH CARE' : 'FRESH EACH MORNING';
+  image.append(caption);
+  const info = document.createElement('div');
+  info.className = 'product-info';
+  const copy = document.createElement('div');
+  const title = document.createElement('h3');
+  title.textContent = product.name;
+  const description = document.createElement('p');
+  description.textContent = product.description;
+  const stock = document.createElement('small');
+  stock.className = 'product-stock';
+  stock.textContent = product.quantity > 0 ? `${product.quantity} available` : 'Out of stock';
+  copy.append(title, description, stock);
+  const price = document.createElement('span');
+  price.className = 'price';
+  price.append(document.createTextNode(money(product.price) + ' '));
+  const unit = document.createElement('small');
+  unit.textContent = `/ ${product.unit}`;
+  price.append(unit);
+  info.append(copy, price);
+  const add = document.createElement('button');
+  add.className = 'add-button';
+  add.type = 'button';
+  add.dataset.action = 'add';
+  add.dataset.productId = product.id;
+  add.dataset.product = product.name;
+  add.dataset.price = product.price;
+  add.dataset.stock = product.quantity;
+  add.textContent = 'Add to basket +';
+  const buy = document.createElement('button');
+  buy.className = 'buy-now-button';
+  buy.type = 'button';
+  buy.dataset.action = 'buy';
+  buy.dataset.productId = product.id;
+  buy.dataset.product = product.name;
+  buy.dataset.price = product.price;
+  buy.dataset.stock = product.quantity;
+  buy.textContent = 'Buy now →';
+  if (!Number(product.quantity)) { add.disabled = true; buy.disabled = true; }
+  card.append(image, info, add, buy);
+  return card;
+}
+
+async function loadProducts() {
+  try {
+    const result = await api('/api/products');
+    storeIsOpen = Boolean(result.storeOpen);
+    const target = document.querySelector('#products');
+    target.replaceChildren(...result.products.map(drawConsumerProduct));
+    productCards = [...target.querySelectorAll('.product-card')];
+    for (const [name, item] of cart) {
+      const product = result.products.find((entry) => entry.name === name || entry.id === item.id);
+      if (!product) cart.delete(name);
+      else { item.id = product.id; item.price = Number(product.price); item.stock = Number(product.quantity); }
+    }
+    persistCart();
+    filterProducts();
+  } catch (error) { showToast(error.message); }
+}
+
+document.querySelector('#products').addEventListener('click', (event) => {
+  const button = event.target.closest('[data-action]');
+  if (!button) return;
+  const product = { id: button.dataset.productId, name: button.dataset.product, price: Number(button.dataset.price), stock: Number(button.dataset.stock) };
+  if (!product) return;
+  const item = cart.get(product.name) || { id: product.id, price: product.price, quantity: 0, stock: product.stock };
+  if (item.quantity >= product.stock) { showToast(`Only ${product.stock} of ${product.name} are available`); return; }
+  item.quantity += 1;
+  item.id = product.id;
+  item.price = product.price;
+  item.stock = product.stock;
+  cart.set(product.name, item);
+  persistCart();
+  if (button.dataset.action === 'buy') openCheckout();
+  else showToast(`${product.name} added to your basket`);
+});
+loadProducts();
+setInterval(() => { if (!document.hidden) loadProducts(); }, 20000);
+
+function showShopClosed() {
+  const overlay = document.querySelector('#shop-closed-overlay');
+  overlay.hidden = false;
+  document.body.classList.add('shop-is-closed');
+  document.querySelector('#shop-closed-dismiss').focus();
+}
+
+function hideShopClosed() {
+  document.querySelector('#shop-closed-overlay').hidden = true;
+  document.body.classList.remove('shop-is-closed');
+}
+
+document.querySelector('#shop-closed-dismiss').addEventListener('click', hideShopClosed);
+document.querySelector('#shop-closed-overlay').addEventListener('click', (event) => {
+  if (event.target.id === 'shop-closed-overlay') hideShopClosed();
+});
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape' && !document.querySelector('#shop-closed-overlay').hidden) hideShopClosed();
 });
 
 document.querySelector('#checkout-items').addEventListener('click', (event) => {
@@ -423,6 +551,12 @@ document.querySelector('#orders-sign-out').addEventListener('click', async () =>
   showToast('You’ve signed out');
 });
 
+setInterval(() => {
+  if (profile.name?.trim() && !document.querySelector('#orders-page').hidden) {
+    loadCustomerOrders().then(renderOrders).catch(() => {});
+  }
+}, 12000);
+
 document.querySelectorAll('input[name="payment"]').forEach((input) => input.addEventListener('change', () => {
   document.querySelector('#payment-note').textContent = input.value === 'UPI'
     ? 'UPI orders are saved as pending until payment is confirmed.'
@@ -445,8 +579,16 @@ document.querySelector('#checkout-form').addEventListener('submit', async (event
     total: cartTotal(),
   };
   try {
-    await api('/api/orders', { mobile: normalizeMobile(profile.phone), order });
+    const shopStatus = await api('/api/products?status=1');
+    if (!shopStatus.storeOpen) {
+      storeIsOpen = false;
+      showShopClosed();
+      return;
+    }
+    const confirmation = await api('/api/orders', { mobile: normalizeMobile(profile.phone), order });
+    Object.assign(order, confirmation.order);
   } catch (error) {
+    if (error.status === 403) { storeIsOpen = false; showShopClosed(); return; }
     showToast(error.message);
     return;
   }

@@ -134,6 +134,10 @@ h1,h2,h3,.brand-logo { font-family:var(--font-heading); color:var(--brand-green)
 @media (max-width:640px) { .orders-account-actions { padding:14px 5px; } }
 .orders-page { width:100%; max-width:none; min-height:calc(100vh - 78px); padding:1px 24px 70px; background:radial-gradient(ellipse at 9% 7%,rgba(197,216,185,.75),transparent 31%),radial-gradient(ellipse at 91% 32%,rgba(240,218,190,.65),transparent 28%),linear-gradient(145deg,#F3F2E8,#F6EFE3 55%,#E9F0E5); }
 .orders-page .page-top,.orders-page .page-heading,.orders-page .orders-list,.orders-page .orders-account-actions { width:min(790px,100%); margin-left:auto; margin-right:auto; }
+.orders-account-actions .sign-out-button { min-width:120px; min-height:44px; padding:11px 19px; border:1px solid var(--accent-terracotta); border-radius:6px; background:#fff8f3; color:var(--accent-terracotta); font:700 13px var(--font-body); box-shadow:0 2px 0 rgba(176,74,37,.12); transition:transform .16s ease,box-shadow .18s ease,background .18s ease,color .18s ease; }
+.orders-account-actions .sign-out-button:hover { transform:translateY(-2px); background:var(--accent-terracotta); color:#fff; box-shadow:0 5px 12px rgba(176,74,37,.22); }
+.orders-account-actions .sign-out-button:active { transform:translateY(0); box-shadow:0 1px 2px rgba(176,74,37,.18); }
+.orders-account-actions .sign-out-button:focus-visible { outline:3px solid rgba(229,169,60,.65); outline-offset:3px; }
 .orders-page .page-heading { padding-top:10px; }
 .order-card { border-color:#ddd9c8; background:rgba(255,254,250,.93); box-shadow:0 10px 25px rgba(44,57,39,.07); }
 .order-card-top { align-items:flex-start; }
@@ -144,6 +148,7 @@ h1,h2,h3,.brand-logo { font-family:var(--font-heading); color:var(--brand-green)
 .order-tracker li:last-child::after { display:none; }
 .order-tracker i { width:24px; height:24px; display:grid; place-items:center; border:1.5px solid #d5ccbb; border-radius:50%; background:#fffefa; color:#8d8578; font-size:9px; font-style:normal; font-weight:700; z-index:1; }
 .order-tracker li.is-complete { color:var(--brand-green); font-weight:700; }.order-tracker li.is-complete i { color:white; background:var(--brand-green); border-color:var(--brand-green); }.order-tracker li.is-complete::after { background:linear-gradient(90deg,var(--brand-green),#ded8ca 70%); }
+.order-tracker li.is-rejected { color:var(--accent-terracotta); font-weight:700; }.order-tracker li.is-rejected i { color:white; background:var(--accent-terracotta); border-color:var(--accent-terracotta); }
 @media (max-width:640px) { .orders-page { padding:1px 14px 55px; background:radial-gradient(ellipse at 0% 5%,rgba(197,216,185,.7),transparent 36%),linear-gradient(160deg,#F3F2E8,#F6EFE3 70%,#E9F0E5); }.order-card { padding:15px 12px; }.order-tracker { margin-top:15px; }.order-tracker li { font-size:8px; }.order-tracker li::after { left:calc(50% + 11px); width:calc(100% - 22px); }.order-tracker i { width:21px; height:21px; } }
 .auth-page { width:100%; max-width:none; min-height:calc(100vh - 78px); padding:45px 20px 70px; display:grid; place-items:center; background:radial-gradient(ellipse at 12% 16%,rgba(197,216,185,.7),transparent 32%),radial-gradient(ellipse at 89% 80%,rgba(240,218,190,.65),transparent 30%),linear-gradient(135deg,#F4F1E7,#e9f0e5); }
 .auth-card { width:min(450px,100%); padding:34px 38px 32px; border:1px solid #e2d9c8; border-radius:12px; background:rgba(255,254,250,.96); box-shadow:0 18px 48px rgba(33,66,39,.12); }
@@ -179,6 +184,12 @@ body { background-color:var(--bg-main); }
 #home-page .product-card { overflow:hidden; padding-bottom:15px; border:1px solid #e5ddcd; border-radius:9px; background:#fffefa; box-shadow:0 8px 22px rgba(44,36,30,.055); transition:transform .2s ease,box-shadow .2s ease; }
 #home-page .product-card:hover { transform:translateY(-3px); box-shadow:0 13px 28px rgba(44,36,30,.1); }
 #home-page .product-image { border-radius:8px 8px 0 0; }
+#home-page .product-image.uploaded-image { background:#ede9dc; }
+#home-page .uploaded-product-photo { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+#home-page .uploaded-image .product-tag,#home-page .uploaded-image .image-caption { z-index:1; }
+#home-page .product-generic-illustration { width:142px; height:142px; display:grid; place-items:center; border:1px solid #e3d8c1; border-radius:18px 18px 28px 28px; background:linear-gradient(145deg,#fffefa,#f1ead9); box-shadow:8px 12px 16px rgba(44,36,30,.12); color:var(--highlight-gold); font:40px var(--font-heading); }
+#home-page .product-stock { display:block; margin-top:5px; color:var(--text-muted); font-size:9px; }
+#home-page .add-button:disabled,#home-page .buy-now-button:disabled { opacity:.55; cursor:not-allowed; }
 #home-page .product-info { min-height:74px; padding:15px 14px 12px; }
 #home-page .add-button,#home-page .buy-now-button { width:calc(100% - 28px); margin:0 14px; display:flex; align-items:center; justify-content:space-between; border-radius:4px; padding:10px 11px; font-size:11px; font-weight:700; cursor:pointer; transition:background .2s,color .2s,transform .2s; }
 #home-page .add-button { border:1px solid var(--border-light); background:#fffefa; color:var(--brand-green); }
@@ -206,3 +217,10 @@ button:focus-visible,a:focus-visible,input:focus-visible { outline:3px solid rgb
 .payment-option { box-shadow:0 2px 5px rgba(44,36,30,.035); }.payment-option:has(input:checked) { box-shadow:inset 0 0 0 1px rgba(46,90,54,.08),0 3px 8px rgba(46,90,54,.08); }
 .back-link,.text-link,.success-actions .text-link { transition:color .18s ease,transform .18s ease; }.back-link:hover,.text-link:hover,.success-actions .text-link:hover { color:var(--accent-terracotta); transform:translateY(-1px); }
 @media (prefers-reduced-motion:reduce) { button,.btn-primary,#home-page .buy-now-button,.nav-button,.profile-button,.cart-button { transition:none!important; } }
+.shop-closed-overlay { position:fixed; inset:0; z-index:100; display:grid; place-items:center; padding:20px; background:rgba(30,43,31,.58); backdrop-filter:blur(5px); animation:shop-overlay-in .24s ease both; }.shop-closed-overlay[hidden] { display:none!important; }.shop-closed-card { width:min(440px,100%); padding:34px 30px 29px; border:1px solid #e7ddc9; border-radius:14px; background:linear-gradient(145deg,#fffefa,#f3efe4); box-shadow:0 22px 80px rgba(12,28,16,.27); text-align:center; animation:shop-card-in .46s cubic-bezier(.2,.8,.25,1.2) both; }.closed-moon { position:relative; width:72px; height:72px; display:grid; place-items:center; margin:0 auto 14px; border-radius:50%; background:#e9efdf; color:var(--brand-green); box-shadow:0 0 0 9px rgba(233,239,223,.65); animation:shop-moon-float 2.8s ease-in-out infinite; }.closed-moon span { font-size:38px; transform:rotate(-22deg); }.closed-moon i,.closed-moon b { position:absolute; color:var(--highlight-gold); font-size:16px; font-style:normal; animation:shop-twinkle 1.5s ease-in-out infinite alternate; }.closed-moon i { top:4px; right:-12px; }.closed-moon b { bottom:3px; left:-10px; font-weight:400; animation-delay:.5s; }.shop-closed-card .eyebrow { justify-content:center; margin:22px 0 9px; font-size:9px; letter-spacing:.14em; }.shop-closed-card h2 { margin:0; color:var(--brand-green); font:600 27px/1.25 var(--font-heading); }.shop-closed-card > p:not(.eyebrow) { margin:10px 0 21px; color:var(--text-muted); font-size:13px; }.shop-closed-card .btn-primary { display:inline-flex; justify-content:space-between; align-items:center; gap:16px; }.shop-is-closed { overflow:hidden; }
+@keyframes shop-overlay-in { from { opacity:0; } to { opacity:1; } }
+@keyframes shop-card-in { from { opacity:0; transform:translateY(18px) scale(.96); } to { opacity:1; transform:translateY(0) scale(1); } }
+@keyframes shop-moon-float { 50% { transform:translateY(-5px); } }
+@keyframes shop-twinkle { from { opacity:.45; transform:scale(.78) rotate(-10deg); } to { opacity:1; transform:scale(1.15) rotate(10deg); } }
+@media(max-width:500px) { .shop-closed-card { padding:29px 20px 24px; }.shop-closed-card h2 { font-size:24px; }.shop-closed-card > p:not(.eyebrow) { font-size:12px; } }
+@media(prefers-reduced-motion:reduce) { .shop-closed-overlay,.shop-closed-card,.closed-moon,.closed-moon i,.closed-moon b { animation:none!important; } }

@@ -1,0 +1,7 @@
+aks_dairy.sqlite3
+aks_dairy.sqlite3-shm
+aks_dairy.sqlite3-wal
+.env
+.venv/
+__pycache__/
+*.py[cod]
