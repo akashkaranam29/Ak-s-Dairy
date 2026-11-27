@@ -180,6 +180,9 @@ class Handler(SimpleHTTPRequestHandler):
                     rows = db.execute("SELECT * FROM products ORDER BY active DESC, name").fetchall()
                 else:
                     rows = db.execute("SELECT * FROM products WHERE active=1 ORDER BY created_at, name").fetchall()
+        elif parsed.path in ("/admin", "/admin/", "/admin.html"):
+            self.path = "/admin.html"
+            return super().do_GET()
             return self.send_json({"products": [dict(row) for row in rows], "storeOpen": store_open})
         if parsed.path == "/api/orders":
             mobile = mobile_digits(parse_qs(parsed.query).get("mobile", [""])[0])
