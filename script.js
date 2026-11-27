@@ -127,7 +127,7 @@ async function api(path, data) {
     const runningLocally = ['localhost', '127.0.0.1'].includes(location.hostname);
     const error = new Error(runningLocally
       ? 'The local database server is not reachable. Start Ak’s Dairy with “Start Ak’s Dairy.bat”, then open http://localhost:8000.'
-      : 'The hosted database service could not be reached. Check the Vercel deployment and its POSTGRES_URL or DATABASE_URL setting.');
+      : 'The hosted app could not reach its backend. Check that the web service is running and connected to its database.');
     error.databaseOffline = true;
     error.runningLocally = runningLocally;
     throw error;
@@ -138,7 +138,7 @@ async function api(path, data) {
     const runningLocally = ['localhost', '127.0.0.1'].includes(location.hostname);
     throw new Error(runningLocally
       ? 'The local database server returned an unreadable response. Restart it with “Start Ak’s Dairy.bat” and try again.'
-      : 'Vercel did not return a database response. Confirm that POSTGRES_URL or DATABASE_URL is configured, then redeploy.');
+      : 'The hosted app returned an unreadable response. Check that its backend is deployed and connected to its database.');
   }
   if (!response.ok) {
     const error = new Error(result.error || 'We couldn’t complete that request.');
@@ -609,6 +609,7 @@ document.querySelector('#checkout-form').addEventListener('submit', async (event
 
 persistCart();
 syncProfileName();
+if (new URLSearchParams(location.search).get('login') === '1') showAuth('login');
 api('/api/migrate', { accounts: legacyAccounts, orders: legacyOrders }).then(() => {
   localStorage.removeItem(ACCOUNTS_KEY);
   localStorage.removeItem(ORDERS_KEY);

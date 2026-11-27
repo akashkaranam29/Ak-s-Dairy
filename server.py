@@ -12,7 +12,7 @@ from urllib.parse import urlparse, parse_qs
 
 ROOT = Path(__file__).resolve().parent
 DB_PATH = ROOT / "aks_dairy.sqlite3"
-PORT = 8000
+PORT = int(os.environ.get("PORT", "8000"))
 DATABASE_URL = os.environ.get("DATABASE_URL") or os.environ.get("POSTGRES_URL") or os.environ.get("POSTGRES_PRISMA_URL")
 ADMIN_MOBILE = "".join(ch for ch in os.environ.get("ADMIN_MOBILE", "7382756905") if ch.isdigit())
 ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD", "" if os.environ.get("VERCEL") else "123456")
